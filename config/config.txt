@@ -1,0 +1,2 @@
+--oem 3
+--tessdata-dir /path/to/tessdata
