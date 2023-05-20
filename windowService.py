@@ -1,13 +1,13 @@
 import pywinauto.findwindows as findwindows
 import pywinauto
 import os
+import time
+
 def getHwnd(player_name):
-   # Conecta con la ventana del juego
     hwnd = findwindows.find_windows(title_re=f".*{player_name}.*", visible_only=True)
     return hwnd[0]
 
 def getWindow(player_name):
-   # Conecta con la ventana del juego
     hwnd = getHwnd(player_name)
     app = pywinauto.Application().connect(handle=hwnd)
     window = app.top_window()
@@ -16,6 +16,7 @@ def getWindow(player_name):
 def takeScreenShoot(window):
     img = window.capture_as_image()
     img.save(os.path.join(os.getcwd(), "images/screen.jpg"))
+    time.sleep(0.1)
 
 def getMiddleCoordinates(window):
     rect = window.rectangle()
