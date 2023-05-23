@@ -10,7 +10,7 @@ import keyboard
 run = True
 print("starting")
 reader = easyocr.Reader(['en'], gpu=True)
-window = getWindow("Hakom")
+window = getWindow("Hendrix")
 middleCoordinates = getMiddleCoordinates(window)
 initialCoordinates = getCoordinates(window,reader)
 rect = window.rectangle()
