@@ -1,0 +1,12 @@
+1) Ejecutar PowerShell como Administrador y ejecutar 
+2) Copiar y Pegar lo siguiente:
+
+cd .
+cd 'C:\Users\Nicolás Silva\Desktop\mu-helper\mu-online-helper\'
+python main.py
+
+3) apretar enter
+
+4) para parar la ejecucion apretar ESC en powershell tiene que decir "stopping" o apretar CTRL + C 2 veces
+
+
