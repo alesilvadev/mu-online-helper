@@ -27,7 +27,7 @@ def analizeImage(reader, window_x, window_y, middleCoordinates):
         text = result[1]
         coords = result[0]
         item = { "name": text, "coords": calculateCoords(coords, window_x, window_y, )}
-        if(":" not in text):
+        if(":" not in text and "Obtained" not in text):
             if("Zen" in text and len(text) > 3 and len(text) < 12):
                 points.append(item)
             if(("Jewel" in text and "Obtained" not in text) or isExceItem(result) == True):
@@ -73,6 +73,7 @@ def isExceItem(text):
     if(text[1].isdigit() == False):
         image = cv2.imread('images/screen.jpg')
         box = text[0]
+        currentText = text[1]
         x_min, y_min = np.min(box, axis=0)
         x_max, y_max = np.max(box, axis=0)
         # Extraer la región de texto de la imagen original
@@ -80,11 +81,11 @@ def isExceItem(text):
         # Calcular el color dominante de la región de texto
         dominant_color = np.mean(text_region, axis=(0, 1))
         simplified_color = simplify_color(dominant_color)
-        if(simplified_color == "green" and len(text) > 5 and isValid(text) == True):
+        if(simplified_color == "green" and len(currentText) > 5 and isValid(currentText) == True):
             return True
         return False
     return False
 
 def isValid(text):
-    patron = r'^[A-Za-z+]+$'
+    patron = r'[A-Za-z+]+'
     return re.match(patron, text) is not None
