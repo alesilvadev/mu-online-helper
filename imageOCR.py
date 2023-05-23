@@ -2,7 +2,7 @@ import math
 import cv2
 import numpy as np
 from inventoryService import isInventoryFull, cleanInventory
-
+import re
 NAME_ITEM_DIFFERENCE = 30
 
 def calculateCoords(coords, window_x, window_y):
@@ -27,11 +27,12 @@ def analizeImage(reader, window_x, window_y, middleCoordinates):
         text = result[1]
         coords = result[0]
         item = { "name": text, "coords": calculateCoords(coords, window_x, window_y, )}
-        if("Zen" in text and len(text) > 3 and len(text) < 12):
-            points.append(item)
-        if(("Jewel" in text and "Obtained" not in text) or isExceItem(result) == True):
-            priority.append(item)
-            break
+        if(":" not in text):
+            if("Zen" in text and len(text) > 3 and len(text) < 12):
+                points.append(item)
+            if(("Jewel" in text and "Obtained" not in text) or isExceItem(result) == True):
+                priority.append(item)
+                break
         
     if(len(priority) > 0):
         return priority
@@ -79,5 +80,11 @@ def isExceItem(text):
         # Calcular el color dominante de la región de texto
         dominant_color = np.mean(text_region, axis=(0, 1))
         simplified_color = simplify_color(dominant_color)
-        return simplified_color == "green"
+        if(simplified_color == "green" and len(text) > 5 and isValid(text) == True):
+            return True
+        return False
     return False
+
+def isValid(text):
+    patron = r'^[A-Za-z+]+$'
+    return re.match(patron, text) is not None

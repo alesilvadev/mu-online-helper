@@ -31,9 +31,9 @@ def isInventoryFull(texts):
 
 def dropItem(x, y):
     moveCursor(x, y)
-    time.sleep(0.3)
+    time.sleep(0.4)
     clickCursor(x, y)
-    time.sleep(0.3)
+    time.sleep(0.8)
     moveCursor(763, 863)
     time.sleep(0.5)
     clickCursor(763, 863)

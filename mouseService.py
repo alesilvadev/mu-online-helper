@@ -129,32 +129,22 @@ def walkArround(center_x, center_y, coords):
     time.sleep(1)
     clickCursor(center_x, center_y + 40)
     
-def moveDown(screnWidth, screenHeight):
-    moveCursor(300, 275, screnWidth, screenHeight)
+def moveDown():
+    moveCursor(765, 402)
     time.sleep(1)
-    clickCursor(300, 300)
-    clickCursor(300, 300)
+    clickCursor(765, 402)
 
-def moveUp(screnWidth, screenHeight):
-    moveCursor(255, 225, screnWidth, screenHeight)
+def moveUp():
+    moveCursor(700, 338)
     time.sleep(1)
-    clickCursor(255, 225)
-    clickCursor(255, 225)
+    clickCursor(700, 338)
 
-def moveRight(screnWidth, screenHeight):
-    moveCursor(305, 225, screnWidth, screenHeight)
+def moveRight():
+    moveCursor(752, 349)
     time.sleep(1)
-    clickCursor(305, 225)
-    time.sleep(0.1)
-    clickCursor(305, 225)
-    time.sleep(0.1)
-    clickCursor(305, 225)
+    clickCursor(752, 349)
 
-def moveLeft(screnWidth, screenHeight):
-    moveCursor(250, 280, screnWidth, screenHeight)
+def moveLeft():
+    moveCursor(673, 403)
     time.sleep(1)
-    clickCursor(250, 280)
-    time.sleep(0.1)
-    clickCursor(250, 280)
-    time.sleep(0.1)
-    clickCursor(250, 280)
+    clickCursor(673, 403)

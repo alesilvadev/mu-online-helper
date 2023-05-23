@@ -18,6 +18,11 @@ def takeScreenShoot(window):
     img.save(os.path.join(os.getcwd(), "images/screen.jpg"))
     time.sleep(0.1)
 
+def takeCustomScreenShoot(window, x , y, width, height,  filename):
+    sector = window.capture_as_image().crop((x, y, x + width, y + height))
+    sector.save(os.path.join(os.getcwd(), f"images/{filename}.jpg"))
+    time.sleep(0.1)
+
 def getMiddleCoordinates(window):
     rect = window.rectangle()
     coord_x = int(rect.left + rect.width() / 2) -230
