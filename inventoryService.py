@@ -8,7 +8,7 @@ from keyboardService import touchSystemCharacter, keepDownKey, releaseKey
 START_POINT_INVENTORY_X = 1068
 START_POINT_INVENTORY_Y = 390
 MOVE_DISTANCE = 44 * 2
-TOTAL_SPACES_PER_ROW = 8
+TOTAL_SPACES_PER_ROW = 4
 TOTAL_SPACES = 64
 
 MAXIMUM_X = 975
@@ -29,6 +29,13 @@ def isInventoryFull(texts):
             return True
     return False
 
+def isFullZen(texts):
+    for result in texts:
+        text = result[1]
+        if("exceeded the amount of Zen" in text):
+            return True
+    return False
+
 def dropItem(x, y):
     moveCursor(x, y)
     time.sleep(0.4)
@@ -46,9 +53,9 @@ def garbageCollector():
     for x in range(0, TOTAL_SPACES_PER_ROW - 1):
         for x in range(0, TOTAL_SPACES_PER_ROW):
             dropItem(MOVE_POINT_X, MOVE_POINT_Y)
-            MOVE_POINT_X = MOVE_POINT_X + 44
+            MOVE_POINT_X = MOVE_POINT_X + MOVE_DISTANCE
         MOVE_POINT_X = START_POINT_INVENTORY_X
-        MOVE_POINT_Y = MOVE_POINT_Y + 44
+        MOVE_POINT_Y = MOVE_POINT_Y + MOVE_DISTANCE
         time.sleep(0.5)
     print("end garbage collector")
 

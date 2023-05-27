@@ -2,6 +2,9 @@ import math
 import cv2
 import numpy as np
 from inventoryService import isInventoryFull, cleanInventory
+import numpy as np
+from scipy.spatial import distance_matrix
+from scipy.optimize import linear_sum_assignment
 import re
 NAME_ITEM_DIFFERENCE = 30
 
@@ -16,7 +19,7 @@ def calculateCoords(coords, window_x, window_y):
         "y": int(center_y) + window_y + NAME_ITEM_DIFFERENCE
     }
     
-def analizeImage(reader, window_x, window_y, middleCoordinates):
+def analizeImage(reader, window_x, window_y, middleCoordinates, needZen):
     points = []
     priority = []
     results = reader.readtext('images/screen.jpg')
@@ -28,7 +31,7 @@ def analizeImage(reader, window_x, window_y, middleCoordinates):
         coords = result[0]
         item = { "name": text, "coords": calculateCoords(coords, window_x, window_y, )}
         if(":" not in text and "Obtained" not in text):
-            if("Zen" in text and len(text) > 3 and len(text) < 12):
+            if(needZen == True and "Zen" in text and len(text) > 3 and len(text) < 12):
                 points.append(item)
             if(("Jewel" in text and "Obtained" not in text) or isExceItem(result) == True):
                 priority.append(item)
@@ -40,6 +43,7 @@ def analizeImage(reader, window_x, window_y, middleCoordinates):
         if(len(points) > 0):
             points = orderFromDistance(points, middleCoordinates["x"], middleCoordinates["y"])
             return [points[0]]
+            #return antRoad(np.array([middleCoordinates["x"], middleCoordinates["y"]]), points)
         return []
 
 def calculateDistance(x1, y1, x2, y2):
@@ -89,3 +93,12 @@ def isExceItem(text):
 def isValid(text):
     patron = r'[A-Za-z+]+'
     return re.match(patron, text) is not None
+
+
+def antRoad(pj, items):
+    coords = np.array([list(item['coords'].values()) for item in items])
+    todos_puntos = np.vstack([pj, coords])
+    distancias = distance_matrix(todos_puntos, todos_puntos)
+    row_ind, col_ind = linear_sum_assignment(distancias)
+    orden_items = col_ind[1:] - 1
+    return [items[i] for i in orden_items]

@@ -10,7 +10,7 @@ import keyboard
 run = True
 print("starting")
 reader = easyocr.Reader(['en'], gpu=True)
-window = getWindow("Hendrix")
+window = getWindow("Hakom")
 middleCoordinates = getMiddleCoordinates(window)
 initialCoordinates = getCoordinates(window,reader)
 rect = window.rectangle()
@@ -18,6 +18,8 @@ window_x = rect.left
 window_y = rect.top
 runTimes = 1
 notPickedUp = 1
+needZen = True
+needKeepAlive = False
 
 
 def stop_running(e):
@@ -30,33 +32,38 @@ def stop_running(e):
 def run_kep_alive():
     global runTimes
     global initialCoordinates
-    release_key()
-    chatKeepAlive()
-    time.sleep(0.2)
-    press_key()
-    time.sleep(1)
-    currentCordinates = getCoordinates(window,reader)
-    if(currentCordinates != None and initialCoordinates != None):
-        moveRoad(initialCoordinates, currentCordinates)
+    global needKeepAlive
+    if(needKeepAlive == True):
+        release_key()
+        chatKeepAlive()
+        time.sleep(0.2)
+        press_key()
+        time.sleep(1)
+        currentCordinates = getCoordinates(window,reader)
+        if(currentCordinates != None and initialCoordinates != None):
+            moveRoad(initialCoordinates, currentCordinates)
     runTimes = 1
 
 def running_process():
     global runTimes
     global notPickedUp
+    global needZen
     
     if(runTimes == 150):
         run_kep_alive()
         time.sleep(1)
         return
     takeScreenShoot(window)
-    items =  analizeImage(reader, window_x, window_y, middleCoordinates)
+    items =  analizeImage(reader, window_x, window_y, middleCoordinates, needZen)
     if(len(items) > 0):
+        print(items)
         for item in items:
             print(f"Levantando: {item['name']}")
             moveCursor(item["coords"]["x"], item["coords"]["y"])
             press_key()
             time.sleep(0.3)
             clickCursor(item["coords"]["x"], item["coords"]["y"])
+            time.sleep(1.5)
     else: 
         notPickedUp = notPickedUp + 1
     time.sleep(1.7)
