@@ -1,0 +1,32 @@
+#GUIDE
+
+1- Install any missing dependencies by running the command: 
+$ pip install -r requirements.txt. 
+Ensure you are in the project directory when you run this command. This will install all the necessary Python packages listed in the requirements.txt file.
+
+2- Navigate to the git project folder and edit the features you want in config.py. Important: change the CHARACTER_NAME variable to your in-game character name.
+
+3- Open Mu Online with the resolution set to either 1440p or 1024p. Ensure the "borderless" and "windowed" options are selected.
+
+4- Log into Mu Online using this configuration and your account.
+
+5- Open a command line as an administrator. This could be PowerShell, cmd, Terminal on macOS, or whichever command interpreter you use.
+
+To open as administrator on Windows:
+
+Right-click on the application icon (cmd or PowerShell)
+Select 'Run as administrator'
+On MacOS or Linux:
+
+Open the Terminal
+Type 'sudo su', and then enter your password
+
+6- Navigate to the project directory using the cd command. For example, if your project is located at C:\Users\YourName\Documents\MuOnline, 
+you would type cd C:\Users\YourName\Documents\MuOnline and hit Enter.
+
+7- Run the main project script with Python by typing python main.py into the command line and hitting Enter. Ensure you have the correct 
+version of Python installed and that your command line is set up to recognize the python command.
+
+#Note: 
+If you receive an error message saying Python is not recognized as a command, you may need to add Python to your PATH environment variable. 
+Alternatively, you might try using python3 instead of python.

@@ -1,11 +1,11 @@
 from keyboardService import touchSystemCharacter, typeWords
 from timeService import executeSleep
+from config import WRITE_MESSAGES_TEXTS,WRITE_MESSAGES
 import random
 
-texts = ["lg", "laaaag", "lggggg", "+", "laggg" "lllag" + "+++++++++", "lgg"]
-
 def chatKeepAlive():
-    touchSystemCharacter(0x0D)
-    typeWords(random.choice(texts))
-    executeSleep("typping")
-    touchSystemCharacter(0x0D)
+    if(WRITE_MESSAGES == True):
+        touchSystemCharacter(0x0D)
+        typeWords(random.choice(WRITE_MESSAGES_TEXTS))
+        executeSleep("typping")
+        touchSystemCharacter(0x0D)

@@ -1,14 +1,15 @@
 import pywinauto.findwindows as findwindows
+from config import CHARACTER_NAME
 import pywinauto
 import os
 import time
 
-def getHwnd(player_name):
-    hwnd = findwindows.find_windows(title_re=f".*{player_name}.*", visible_only=True)
+def getHwnd():
+    hwnd = findwindows.find_windows(title_re=f".*{CHARACTER_NAME}.*", visible_only=True)
     return hwnd[0]
 
-def getWindow(player_name):
-    hwnd = getHwnd(player_name)
+def getWindow():
+    hwnd = getHwnd()
     app = pywinauto.Application().connect(handle=hwnd)
     window = app.top_window()
     return window
