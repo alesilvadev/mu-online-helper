@@ -34,7 +34,7 @@ COORDINATES_SCREEN_SIZE={
 
 
 #OCR -> API/LOCAL
-OCR_PROCESSOR="API"
+OCR_PROCESSOR="LOCAL"
 
 #WRITE_MESSAGES -> Write Messages Feature (Allow user to write random difined messages)
 WRITE_MESSAGES_TEXTS=["lg", "laaaag", "lggggg", "+", "laggg" "lllag" + "+++++++++", "lgg"]
