@@ -6,7 +6,12 @@ PICK_UP_ITEMS_EXC=True
 WRITE_MESSAGES=False
 BACK_TO_INITIAL_POSITION=False
 CLEAN_INVENTORY=True
+SEND_WINDOWS_ALERT=False
 WINDOW_SCREEN_SIZE="1440"
+PRINTING_ITEMS=False
+ITEMS_TO_SEARCH=["Jewel", "Stone"]
+#OCR -> API/LOCAL
+OCR_PROCESSOR="API"
 COORDINATES_SCREEN_SIZE={
     "1440": {
         "MOVE_CELL_DISTANCE": 44,
@@ -31,10 +36,6 @@ COORDINATES_SCREEN_SIZE={
         },
     }
 }
-
-
-#OCR -> API/LOCAL
-OCR_PROCESSOR="LOCAL"
 
 #WRITE_MESSAGES -> Write Messages Feature (Allow user to write random difined messages)
 WRITE_MESSAGES_TEXTS=["lg", "laaaag", "lggggg", "+", "laggg" "lllag" + "+++++++++", "lgg"]

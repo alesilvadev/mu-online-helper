@@ -30,3 +30,9 @@ version of Python installed and that your command line is set up to recognize th
 #Note: 
 If you receive an error message saying Python is not recognized as a command, you may need to add Python to your PATH environment variable. 
 Alternatively, you might try using python3 instead of python.
+
+
+------INSTALL OPENVINO OCR------
+
+1- $ pip install openvino-dev
+2- $ omz_downloader --all

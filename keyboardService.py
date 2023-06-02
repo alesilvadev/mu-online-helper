@@ -1,7 +1,8 @@
 import ctypes
 import time
 import pyautogui
-
+from config import SEND_WINDOWS_ALERT
+from win10toast import ToastNotifier
 
 def touchSystemCharacter(key):
     ctypes.windll.user32.keybd_event(key, 0, 0, 0)
@@ -16,3 +17,8 @@ def releaseKey(key):
     
 def typeWords(words):
     pyautogui.typewrite(words)
+    
+def sendAlert(title, message):
+    if(SEND_WINDOWS_ALERT == True):
+        toaster = ToastNotifier()
+        toaster.show_toast(title, message, duration=10)

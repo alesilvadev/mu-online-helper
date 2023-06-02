@@ -1,13 +1,12 @@
 import easyocr
 import time
-from imageOCR import analizeImage, analizeImageSpaceOCR
+from imageOCR import analizeImage, analizeImageAPI
 from windowService import getWindow,takeScreenShoot, getMiddleCoordinates
 from mouseService import moveCursor, clickCursor, release_key, press_key
 from mapService import getCoordinates, moveRoad
 from chatService import chatKeepAlive
-from config import OCR_PROCESSOR
+from config import OCR_PROCESSOR, SEND_WINDOWS_ALERT, PRINTING_ITEMS
 import keyboard
-
 
 print("starting")
 run = True
@@ -21,11 +20,15 @@ runTimes = 1
 notPickedUp = 1
 
 if(OCR_PROCESSOR == "LOCAL"):
+    print("GPU PROCESSING")
     reader = easyocr.Reader(['en'], gpu=True)
+else:
+    print("API PROCESSING")
 
 def stop_running(e):
     global run
-    if(e.name == 'esc' or e.name == "delete" or e.name == "backspace"):
+    print(e.name)
+    if(e.name == "delete" or e.name == "insert"):
         print("stopping...")
         run = False
         
@@ -55,15 +58,19 @@ def running_process():
     if(OCR_PROCESSOR == "LOCAL"):
         items =  analizeImage(reader, window_x, window_y)
     else:
-        items = analizeImageSpaceOCR()
+        items = analizeImageAPI(window_x, window_y)
     if(len(items) > 0):
         for item in items:
-            print(f"Levantando: {item['name']}")
-            moveCursor(item["coords"]["x"], item["coords"]["y"])
-            press_key()
-            time.sleep(0.3)
-            clickCursor(item["coords"]["x"], item["coords"]["y"])
-            time.sleep(1.5)
+            if(PRINTING_ITEMS == True):
+                print(f"Levantando: {item['name']}")
+            if(SEND_WINDOWS_ALERT != True):
+                moveCursor(item["coords"]["x"], item["coords"]["y"])
+                press_key()
+                time.sleep(0.1)
+                clickCursor(item["coords"]["x"], item["coords"]["y"])
+                time.sleep(1)
+            else:
+                time.sleep(4)
     else: 
         notPickedUp = notPickedUp + 1
     time.sleep(1.7)

@@ -7,10 +7,9 @@ from scipy.spatial import distance_matrix
 from scipy.optimize import linear_sum_assignment
 import arrow
 import re
-from config import PICK_UP_ZEN, PICK_UP_JEWELS
-from spaceOCR import ocr_space_file
-from spaceOCR import ocr_space_file
-
+from config import PICK_UP_ZEN, PICK_UP_JEWELS, ITEMS_TO_SEARCH
+from ocrAPIService import getResultsApi
+from keyboardService import sendAlert
 NAME_ITEM_DIFFERENCE = 30
 
 def calculateCoords(coords, window_x, window_y):
@@ -49,25 +48,30 @@ def analizeImage(reader, window_x, window_y):
             return [points[0]]
         return []
 
-def analizeImageSpaceOCR():
+def analizeImageAPI(window_x, window_y):
     points = []
     priority = []
-    results = ocr_space_file()
+    results = getResultsApi()
+    if(isInventoryFull(results) == True):
+        cleanInventory()
+        return []
     for result in results:
-        text = result["LineText"]
-        itemResult = { "name": text, "coords":  {"x": int(result["Words"][0]["Left"]),"y": int(result["Words"][0]["Top"]) + NAME_ITEM_DIFFERENCE}}
+        text = result[1]
+        coords = result[0]
+        item = { "name": text, "coords": calculateCoords(coords, window_x, window_y, )}
         if(isDropPickup(text) == True):
             if(isDroppedZen(text) == True):
-                points.append(itemResult)
-            if(isDroppedJewel(text) == True):
-                priority.append(itemResult)
+                points.append(item)
+            if(isDroppedJewel(text) == True or isExceItem(result) == True):
+                priority.append(item)
                 break
     if(len(priority) > 0):
         return priority
     else:
         if(len(points) > 0):
-            return [points[0]]
+            return [orderFromDistance(points, window_x, window_y)[0]]
         return []
+
 
 def isDropPickup(text):
     return ":" not in text and "obtained" not in text.lower() and "POST" not in text
@@ -76,7 +80,12 @@ def isDroppedZen(text):
     return PICK_UP_ZEN == True and "Zen" in text and len(text) > 3 and len(text) < 12
     
 def isDroppedJewel(text):
-    return PICK_UP_JEWELS == True and ("Jewel" in text and "Obtained" not in text)
+    if(PICK_UP_JEWELS == True):
+        for item in ITEMS_TO_SEARCH:
+            if(item in text):
+                sendAlert("Jewels", text)
+                return True                
+    return False
 
 def calculateDistance(x1, y1, x2, y2):
     return math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2)
@@ -118,6 +127,7 @@ def isExceItem(text):
         dominant_color = np.mean(text_region, axis=(0, 1))
         simplified_color = simplify_color(dominant_color)
         if(simplified_color == "green" and len(currentText) > 5 and isValid(currentText) == True):
+            sendAlert("Item Exce", currentText)
             return True
         return False
     return False
