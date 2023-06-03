@@ -1,8 +1,10 @@
 import pywinauto.findwindows as findwindows
-from config import CHARACTER_NAME
+from config import CHARACTER_NAME, COORDINATES_SCREEN_SIZE, WINDOW_SCREEN_SIZE
 import pywinauto
 import os
 import time
+from PIL import ImageGrab
+
 
 def getHwnd():
     hwnd = findwindows.find_windows(title_re=f".*{CHARACTER_NAME}.*", visible_only=True)
@@ -16,7 +18,9 @@ def getWindow():
 
 def takeScreenShoot(window):
     img = window.capture_as_image()
-    img.save(os.path.join(os.getcwd(), "images/screen.jpg"))
+    widht, height = img.size
+    img = img.crop((COORDINATES_SCREEN_SIZE[WINDOW_SCREEN_SIZE]["CROPPED_IMAGE"]["x"], 0, widht, COORDINATES_SCREEN_SIZE[WINDOW_SCREEN_SIZE]["CROPPED_IMAGE"]["y"]))
+    img.save(os.path.join(os.getcwd(), "images/screen.jpg"), quality=20)
     time.sleep(0.1)
 
 def takeCustomScreenShoot(window, x , y, width, height,  filename):
@@ -29,3 +33,7 @@ def getMiddleCoordinates(window):
     coord_x = int(rect.left + rect.width() / 2) -230
     coord_y = int(rect.top + rect.height() / 2) - 180
     return {"x": coord_x, "y": coord_y, "width": rect.width(), "height": rect.height()}
+
+def resizeCropped(coords):
+    orginalCoords = [(x+ COORDINATES_SCREEN_SIZE[WINDOW_SCREEN_SIZE]["CROPPED_IMAGE"]["x"] , y) for x, y in coords]
+    return orginalCoords

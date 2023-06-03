@@ -7,7 +7,7 @@ WRITE_MESSAGES=False
 BACK_TO_INITIAL_POSITION=False
 CLEAN_INVENTORY=True
 SEND_WINDOWS_ALERT=False
-WINDOW_SCREEN_SIZE="1440"
+WINDOW_SCREEN_SIZE="1024"
 PRINTING_ITEMS=False
 ITEMS_TO_SEARCH=["Jewel", "Stone"]
 #OCR -> API/LOCAL
@@ -22,6 +22,10 @@ COORDINATES_SCREEN_SIZE={
         "DROP_ITEM": {
             "x": 763,
             "y": 863
+        },
+        "CROPPED_IMAGE": {
+            "x": 107,
+            "y": 623
         }
     },
     "1024": {
@@ -34,6 +38,10 @@ COORDINATES_SCREEN_SIZE={
             "x": 543,
             "y": 741
         },
+        "CROPPED_IMAGE": {
+            "x": 107,
+            "y": 623
+        }
     }
 }
 

@@ -10,6 +10,7 @@ import re
 from config import PICK_UP_ZEN, PICK_UP_JEWELS, ITEMS_TO_SEARCH
 from ocrAPIService import getResultsApi
 from keyboardService import sendAlert
+from windowService import resizeCropped
 NAME_ITEM_DIFFERENCE = 30
 
 def calculateCoords(coords, window_x, window_y):
@@ -33,7 +34,7 @@ def analizeImage(reader, window_x, window_y):
         return []
     for result in results:
         text = result[1]
-        coords = result[0]
+        coords = resizeCropped(result[0])
         item = { "name": text, "coords": calculateCoords(coords, window_x, window_y, )}
         if(isDropPickup(text) == True):
             if(isDroppedZen(text) == True):
@@ -57,7 +58,7 @@ def analizeImageAPI(window_x, window_y):
         return []
     for result in results:
         text = result[1]
-        coords = result[0]
+        coords = resizeCropped(result[0])
         item = { "name": text, "coords": calculateCoords(coords, window_x, window_y, )}
         if(isDropPickup(text) == True):
             if(isDroppedZen(text) == True):
