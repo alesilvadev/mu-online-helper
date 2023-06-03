@@ -74,7 +74,7 @@ def analizeImageAPI(window_x, window_y):
 
 
 def isDropPickup(text):
-    return ":" not in text and "obtained" not in text.lower() and "POST" not in text
+    return ":" not in text and "obtained" not in text.lower() and "POST" not in text and "TRIVIA" not in text
 
 def isDroppedZen(text):
     return PICK_UP_ZEN == True and "Zen" in text and len(text) > 3 and len(text) < 12

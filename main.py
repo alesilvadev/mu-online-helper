@@ -28,7 +28,7 @@ else:
 def stop_running(e):
     global run
     print(e.name)
-    if(e.name == "delete" or e.name == "insert"):
+    if(e.name == "delete" or e.name == "insert" or e.name == "|"):
         print("stopping...")
         run = False
         
