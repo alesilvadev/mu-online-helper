@@ -83,6 +83,9 @@ def isDroppedJewel(text):
     if(PICK_UP_JEWELS == True):
         for item in ITEMS_TO_SEARCH:
             if(item in text):
+                if ("1x" or "reward" or "00" or "ix" in text.lower()):
+                    print("ignored - server message")
+                    return False
                 sendAlert("Jewels", text)
                 return True                
     return False
