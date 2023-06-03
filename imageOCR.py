@@ -74,7 +74,7 @@ def analizeImageAPI(window_x, window_y):
 
 
 def isDropPickup(text):
-    return ":" not in text and "obtained" not in text.lower() and "POST" not in text
+    return ":" not in text and "obtained" not in text.lower() and "POST" not in text and "TRIVIA" not in text
 
 def isDroppedZen(text):
     return PICK_UP_ZEN == True and "Zen" in text and len(text) > 3 and len(text) < 12
@@ -83,6 +83,9 @@ def isDroppedJewel(text):
     if(PICK_UP_JEWELS == True):
         for item in ITEMS_TO_SEARCH:
             if(item in text):
+                if ("1x" or "reward" or "00" or "ix" in text.lower()):
+                    print("ignored - server message")
+                    return False
                 sendAlert("Jewels", text)
                 return True                
     return False
