@@ -1,6 +1,6 @@
 #General Configs
 CHARACTER_NAME="Hakom"
-PICK_UP_ZEN=True
+PICK_UP_ZEN=False
 PICK_UP_JEWELS=True
 PICK_UP_ITEMS_EXC=True
 WRITE_MESSAGES=False
@@ -39,8 +39,9 @@ COORDINATES_SCREEN_SIZE={
             "y": 741
         },
         "CROPPED_IMAGE": {
-            "x": 107,
-            "y": 623
+            "x": 120,
+            "y_start": 40,
+            "y_end": 580
         }
     }
 }

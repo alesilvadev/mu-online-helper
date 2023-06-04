@@ -1,3 +1,4 @@
-from ocrAPIService import analyzeImage
+from imageOCR import analizeImageAPI
 
-print(analyzeImage())
+
+print(analizeImageAPI(526,298))

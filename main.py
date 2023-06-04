@@ -5,7 +5,7 @@ from windowService import getWindow,takeScreenShoot, getMiddleCoordinates
 from mouseService import moveCursor, clickCursor, release_key, press_key
 from mapService import getCoordinates, moveRoad
 from chatService import chatKeepAlive
-from config import OCR_PROCESSOR, SEND_WINDOWS_ALERT, PRINTING_ITEMS
+from config import OCR_PROCESSOR, SEND_WINDOWS_ALERT, PRINTING_ITEMS, PICK_UP_ZEN
 import keyboard
 
 print("starting")
@@ -63,17 +63,20 @@ def running_process():
         for item in items:
             if(PRINTING_ITEMS == True):
                 print(f"Levantando: {item['name']}")
-            if(SEND_WINDOWS_ALERT != True):
                 moveCursor(item["coords"]["x"], item["coords"]["y"])
                 press_key()
                 time.sleep(0.1)
                 clickCursor(item["coords"]["x"], item["coords"]["y"])
-                time.sleep(1)
-            else:
-                time.sleep(4)
-    else: 
+                if(PICK_UP_ZEN == False):
+                    time.sleep(3)
+                else:
+                    time.sleep(1)      
+    else:
         notPickedUp = notPickedUp + 1
-    time.sleep(1.7)
+    if(PICK_UP_ZEN == False):
+        time.sleep(3)
+    else:
+        time.sleep(1.7)
     runTimes = runTimes + 1
 
 keyboard.on_press(stop_running)

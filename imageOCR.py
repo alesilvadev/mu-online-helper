@@ -25,54 +25,44 @@ def calculateCoords(coords, window_x, window_y):
     }
     
 def analizeImage(reader, window_x, window_y):
-    points = []
-    priority = []
     results = reader.readtext('images/screen.jpg')
-
     if(isInventoryFull(results) == True):
         cleanInventory()
         return []
-    for result in results:
-        text = result[1]
-        coords = resizeCropped(result[0])
-        item = { "name": text, "coords": calculateCoords(coords, window_x, window_y, )}
-        if(isDropPickup(text) == True):
-            if(isDroppedZen(text) == True):
-                points.append(item)
-            if(isDroppedJewel(text) == True or isExceItem(result) == True):
-                priority.append(item)
-                break
-    if(len(priority) > 0):
-        return priority
-    else:
-        if(len(points) > 0):
-            return [points[0]]
-        return []
+    return analyzeItems(results, window_x, window_y)
 
 def analizeImageAPI(window_x, window_y):
-    points = []
-    priority = []
     results = getResultsApi()
     if(isInventoryFull(results) == True):
         cleanInventory()
         return []
-    for result in results:
+    return analyzeItems(results, window_x, window_y)
+
+def analyzeItems(items, window_x, window_y):
+    points = []
+    jewels = []
+    excellent = []
+    for result in items:
         text = result[1]
+        print(text)
         coords = resizeCropped(result[0])
         item = { "name": text, "coords": calculateCoords(coords, window_x, window_y, )}
         if(isDropPickup(text) == True):
             if(isDroppedZen(text) == True):
                 points.append(item)
             if(isDroppedJewel(text) == True or isExceItem(result) == True):
-                priority.append(item)
-                break
-    if(len(priority) > 0):
-        return priority
+                jewels.append(item)
+            if(isExceItem(result) == True):
+               excellent.append(item)
+               break     
+    if(len(excellent) > 0):
+        return excellent
+    if(len(jewels) > 0):
+        return [jewels[0]]
     else:
         if(len(points) > 0):
-            return [orderFromDistance(points, window_x, window_y)[0]]
+            return [points[0]]
         return []
-
 
 def isDropPickup(text):
     return ":" not in text and "obtained" not in text.lower() and "POST" not in text and "TRIVIA" not in text
@@ -84,7 +74,7 @@ def isDroppedJewel(text):
     if(PICK_UP_JEWELS == True):
         for item in ITEMS_TO_SEARCH:
             if(item in text):
-                if ("1x" or "reward" or "00" or "ix" in text.lower()):
+                if (("1x" or "reward" or "00" or "ix") in text.lower()):
                     print("ignored - server message")
                     return False
                 sendAlert("Jewels", text)
@@ -113,7 +103,7 @@ def simplify_color(rgb_color):
     # Clasificar el color en categorías generales
     if a_value < -20:
         return "red"
-    elif a_value < 119 and a_value >= 116:
+    elif a_value >= 114 and a_value < 119:
         return "green"
     else:
         return "gray"

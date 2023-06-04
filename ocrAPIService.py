@@ -14,7 +14,7 @@ def getResultsApi():
     response = r.json()
     results = response["data"]
     results = [[ast.literal_eval(item[0]), item[1], item[2]] for item in results]
-    #print(arrow.now() - start)
+    print(arrow.now() - start)
     return results
 
 
